@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app'
-import { getMessaging } from 'firebase/messaging/sw'
+import { getMessaging, onBackgroundMessage } from 'firebase/messaging/sw'
 
 /**
  * referrence doc:
@@ -15,7 +15,11 @@ const firebaseApp = initializeApp({
   appId: '1:120666291064:web:6e64186919305022a2a68d',
 })
 
-getMessaging(firebaseApp)
+
+const messaging = getMessaging(firebaseApp)
+onBackgroundMessage(messaging, (payload) => {
+  console.info('[onBackgroundMessage received]', payload)
+})
 /**
  * ref doc: https://web.dev/push-notifications-handling-messages/
  */
