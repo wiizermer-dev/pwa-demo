@@ -36,6 +36,9 @@ export default function Home() {
         <p className={styles.description}>
           fcmToken: {fcmToken}
         </p>
+        {fcmToken && <p className={styles.description}>
+          Current view: {window?.matchMedia('(display-mode: standalone)').matches ? 'PWA' : 'Browser'}
+        </p>}
         <p className={styles.description}>
           Get started by editing{' '}
           <code className={styles.code}>pages/index.js</code>

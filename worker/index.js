@@ -17,18 +17,31 @@ const firebaseApp = initializeApp({
 
 
 const messaging = getMessaging(firebaseApp)
+console.log(messaging)
 onBackgroundMessage(messaging, (payload) => {
+  self.registration.hideNotification()
   console.info('[onBackgroundMessage received]', payload)
+  const { title, body } = payload?.notification || {}
+  const notificationTitle = `${title || 'Notification'}`
+  const notificationOptions = {
+    body: `：${'嗨嗨今天好嗎？'}`,
+    icon: '/icons/icon-32x32.png',
+    tag: 'TEST NOTIFY',
+  }
+  self.registration.showNotification(notificationTitle, notificationOptions)
+  return false
 })
 /**
  * ref doc: https://web.dev/push-notifications-handling-messages/
  */
 self.addEventListener('push', event => {
+  console.info('[event received]', event)
+  event.preventDefault()
   const message = event?.data?.json()
   const { title, body } = message?.notification || {}
   const notificationTitle = `${title || 'Notification'}`
   const notificationOptions = {
-    body: `：${body || '嗨嗨今天好嗎？'}`,
+    body: 'PUSHSHSHSH',
     icon: '/icons/icon-32x32.png',
     tag: 'TEST NOTIFY',
   }

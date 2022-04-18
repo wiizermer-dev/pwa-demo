@@ -7227,7 +7227,23 @@ const firebaseApp = (0,firebase_app__WEBPACK_IMPORTED_MODULE_0__.initializeApp)(
   messagingSenderId: '120666291064',
   appId: '1:120666291064:web:6e64186919305022a2a68d'
 });
-(0,firebase_messaging_sw__WEBPACK_IMPORTED_MODULE_1__.getMessaging)(firebaseApp);
+const messaging = (0,firebase_messaging_sw__WEBPACK_IMPORTED_MODULE_1__.getMessaging)(firebaseApp);
+console.log(messaging);
+(0,firebase_messaging_sw__WEBPACK_IMPORTED_MODULE_1__.onBackgroundMessage)(messaging, payload => {
+  // self.registration.hideNotification()
+  console.info('[onBackgroundMessage received]', payload);
+  const {
+    title,
+    body
+  } = (payload === null || payload === void 0 ? void 0 : payload.notification) || {};
+  const notificationTitle = `${title || 'Notification'}`;
+  const notificationOptions = {
+    body: `：${'嗨嗨今天好嗎？'}`,
+    icon: '/icons/icon-32x32.png',
+    tag: 'TEST NOTIFY'
+  };
+  self.registration.showNotification(notificationTitle, notificationOptions); // return false
+});
 /**
  * ref doc: https://web.dev/push-notifications-handling-messages/
  */
@@ -7235,6 +7251,8 @@ const firebaseApp = (0,firebase_app__WEBPACK_IMPORTED_MODULE_0__.initializeApp)(
 self.addEventListener('push', event => {
   var _event$data;
 
+  console.info('[event received]', event);
+  event.preventDefault();
   const message = event === null || event === void 0 ? void 0 : (_event$data = event.data) === null || _event$data === void 0 ? void 0 : _event$data.json();
   const {
     title,
@@ -7242,7 +7260,7 @@ self.addEventListener('push', event => {
   } = (message === null || message === void 0 ? void 0 : message.notification) || {};
   const notificationTitle = `${title || 'Notification'}`;
   const notificationOptions = {
-    body: `：${body || '嗨嗨今天好嗎？'}`,
+    body: 'PUSHSHSHSH',
     icon: '/icons/icon-32x32.png',
     tag: 'TEST NOTIFY'
   };
