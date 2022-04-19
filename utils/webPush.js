@@ -3,12 +3,13 @@ import { getMessaging, getToken } from 'firebase/messaging'
 import localforage from 'localforage'
 
 const clientCredentials = {
-  apiKey: 'AIzaSyDA1Eb5QQVZLzwYji4qXhrYF-PkdHDBuVY',
-  authDomain: 'sw-notify-trial.firebaseapp.com',
-  projectId: 'sw-notify-trial',
-  storageBucket: 'sw-notify-trial.appspot.com',
-  messagingSenderId: '120666291064',
-  appId: '1:120666291064:web:6e64186919305022a2a68d',
+  apiKey: "AIzaSyBgQe3eswlSvWDe5-TlCODgkK5Un-TDAcE",
+  authDomain: "nsfw-6df75.firebaseapp.com",
+  projectId: "nsfw-6df75",
+  storageBucket: "nsfw-6df75.appspot.com",
+  messagingSenderId: "611194628487",
+  appId: "1:611194628487:web:2bfd22f74e2ecc508a0b22",
+  measurementId: "G-3HW9VFLPRX"
 }
 
 /**
@@ -35,22 +36,18 @@ const firebaseCloudMessaging = {
   init: async () => {
     try {
       const registration = await swReady() 
-
       const app = initializeApp(clientCredentials)
       const messaging = getMessaging(app)
-      const tokenInLocalForage = await firebaseCloudMessaging.tokenInlocalforage()
       await Notification.requestPermission()
+      const tokenInLocalForage = await firebaseCloudMessaging.tokenInlocalforage()
       const token =
         tokenInLocalForage ||
         (await getToken(messaging, {
           serviceWorkerRegistration: registration,
-          vapidKey: 'BL70XipL944PGN_M3bDa130ZfKEB9pZjoKy9wZ5-Ch_7BetlDCLE8a3_7BAK_c3dSpvS-TwJ8u7U3w4AUBLf73I',
+          vapidKey: 'BO3uWIrFO0H5Z9GMxiRi3snDiQM4A7vQ6pWu5zocaTIiJdG02a0vgZGUpW3t66_y6p3tLq7cRGdeFmThWvH4CKE',
         }))
-      if (token) {
-        localforage.setItem('fcm_token', token)
-        return { token, messaging }
-      }
-      return null
+      if (token) localforage.setItem('fcm_token', token)
+      return { token, messaging }
     } catch (error) {
       console.error(error)
       return null
