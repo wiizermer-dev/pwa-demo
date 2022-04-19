@@ -39,7 +39,7 @@ const firebaseCloudMessaging = {
       const app = initializeApp(clientCredentials)
       const messaging = getMessaging(app)
       await Notification.requestPermission()
-      const tokenInLocalForage = await firebaseCloudMessaging.tokenInlocalforage()
+      const tokenInLocalForage = false // await firebaseCloudMessaging.tokenInlocalforage()
       const token =
         tokenInLocalForage ||
         (await getToken(messaging, {
