@@ -16,12 +16,8 @@ const firebaseApp = initializeApp({
   measurementId: "G-3HW9VFLPRX"
 })
 
-const messaging = getMessaging(firebaseApp)
+getMessaging(firebaseApp)
 
-self.addEventListener('install', event => {
-  event.waitUntil(self.skipWaiting());
-  console.log("install, activate");
-})
 
 /** 
  * 在 onBackgroundMessage 做訊息客製化，會顯示兩封通知於通知列(1客製、1預設(無法移除))
@@ -59,7 +55,7 @@ self.addEventListener('install', event => {
 // })
 
 self.addEventListener('push', function (event) {
-  console.info('[push received]', event)
+  console.info('[push received]2222', event)
   // const promise = self.registration.showNotification('PUSH')
   event.waitUntil(self.registration.showNotification('PUSH'))
 })
