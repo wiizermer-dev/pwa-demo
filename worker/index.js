@@ -24,41 +24,41 @@ getMessaging(firebaseApp)
  * https://github.com/firebase/quickstart-js/issues/126#issuecomment-907003970
  */
 
-// onBackgroundMessage(messaging, (payload) => {
-//   // self.registration.hideNotification()
-//   console.info('[onBackgroundMessage received]', payload)
-//   // const { title, body } = payload?.notification || {}
-//   // const notificationTitle = `${title || 'Notification'}`
-//   // const notificationOptions = {
-//   //   body: `${body + '嗨嗨今天好嗎？'}`,
-//   //   icon: '/icons/icon-32x32.png',
-//   //   tag: 'onBackgroundMessage',
-//   // }
-//   // // self.registration.showNotification(notificationTitle, notificationOptions)
-//   // // setTimeout(function () {
-//   // // }, 10);
-//   // // Schedule closing all notifications that are not our own.
-//   // // This is necessary because if we don't close the other notifications the
-//   // // default one will appear and we will have duplicate notifications.
-//   return new Promise(function (resolve, reject) {
-//     resolve();
-//     // setTimeout(function () {
-//     //   self.registration.getNotifications().then((notifications) => {
-//     //     notifications.forEach((notification) => {
-//     //       if (notification.tag !== 'onBackgroundMessage') {
-//     //         notification.close();
-//     //       }
-//     //     });
-//     //   });
-//     // }, 10);
-//   });
-// })
-
-self.addEventListener('push', function (event) {
-  console.info('[push received]2222', event)
-  // const promise = self.registration.showNotification('PUSH')
-  event.waitUntil(self.registration.showNotification('PUSH'))
+onBackgroundMessage(messaging, (payload) => {
+  // self.registration.hideNotification()
+  console.info('[onBackgroundMessage received]', payload)
+  const { title, body } = payload?.notification || {}
+  const notificationTitle = `${title || 'Notification'}`
+  const notificationOptions = {
+    body: `${body + '嗨嗨今天好嗎？'}`,
+    icon: '/icons/icon-32x32.png',
+    tag: 'onBackgroundMessage',
+  }
+  self.registration.showNotification(notificationTitle, notificationOptions)
+  // setTimeout(function () {
+  // }, 10);
+  // // Schedule closing all notifications that are not our own.
+  // // This is necessary because if we don't close the other notifications the
+  // // default one will appear and we will have duplicate notifications.
+  return new Promise(function (resolve, reject) {
+    resolve();
+    // setTimeout(function () {
+    //   self.registration.getNotifications().then((notifications) => {
+    //     notifications.forEach((notification) => {
+    //       if (notification.tag !== 'onBackgroundMessage') {
+    //         notification.close();
+    //       }
+    //     });
+    //   });
+    // }, 10);
+  });
 })
+
+// self.addEventListener('push', function (event) {
+//   console.info('[push received]2222', event)
+//   // const promise = self.registration.showNotification('PUSH')
+//   event.waitUntil(self.registration.showNotification('PUSH'))
+// })
 
 
 self.addEventListener('notificationclick', function (event) {

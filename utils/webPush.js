@@ -47,7 +47,9 @@ const firebaseCloudMessaging = {
           vapidKey: 'BO3uWIrFO0H5Z9GMxiRi3snDiQM4A7vQ6pWu5zocaTIiJdG02a0vgZGUpW3t66_y6p3tLq7cRGdeFmThWvH4CKE',
         }))
       console.log({
-        token
+        token,
+        registration,
+        messaging,
       })
       if (token) localforage.setItem('fcm_token', token)
       return { token, messaging }
