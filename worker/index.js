@@ -24,7 +24,6 @@ const messaging = getMessaging(firebaseApp)
  */
 
 onBackgroundMessage(messaging, (payload) => {
-  // self.registration.hideNotification()
   console.info('[onBackgroundMessage received]', payload)
   const { title, body } = payload?.notification || {}
   const notificationTitle = `${title || 'Notification'}`
@@ -34,23 +33,12 @@ onBackgroundMessage(messaging, (payload) => {
     tag: 'onBackgroundMessage',
   }
   self.registration.showNotification(notificationTitle, notificationOptions)
-  // setTimeout(function () {
-  // }, 10);
   // Schedule closing all notifications that are not our own.
   // This is necessary because if we don't close the other notifications the
   // default one will appear and we will have duplicate notifications.
   return new Promise(function (resolve, reject) {
-    resolve();
-    // setTimeout(function () {
-    //   self.registration.getNotifications().then((notifications) => {
-    //     notifications.forEach((notification) => {
-    //       if (notification.tag !== 'onBackgroundMessage') {
-    //         notification.close();
-    //       }
-    //     });
-    //   });
-    // }, 10);
-  });
+    resolve()
+  })
 })
 
 self.addEventListener('push', function (event) {
