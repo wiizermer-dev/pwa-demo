@@ -16,8 +16,7 @@ const firebaseApp = initializeApp({
   measurementId: "G-3HW9VFLPRX"
 })
 
-getMessaging(firebaseApp)
-
+const messaging = getMessaging(firebaseApp)
 
 /** 
  * 在 onBackgroundMessage 做訊息客製化，會顯示兩封通知於通知列(1客製、1預設(無法移除))
@@ -37,9 +36,9 @@ onBackgroundMessage(messaging, (payload) => {
   self.registration.showNotification(notificationTitle, notificationOptions)
   // setTimeout(function () {
   // }, 10);
-  // // Schedule closing all notifications that are not our own.
-  // // This is necessary because if we don't close the other notifications the
-  // // default one will appear and we will have duplicate notifications.
+  // Schedule closing all notifications that are not our own.
+  // This is necessary because if we don't close the other notifications the
+  // default one will appear and we will have duplicate notifications.
   return new Promise(function (resolve, reject) {
     resolve();
     // setTimeout(function () {
@@ -54,11 +53,10 @@ onBackgroundMessage(messaging, (payload) => {
   });
 })
 
-// self.addEventListener('push', function (event) {
-//   console.info('[push received]2222', event)
-//   // const promise = self.registration.showNotification('PUSH')
-//   event.waitUntil(self.registration.showNotification('PUSH'))
-// })
+self.addEventListener('push', function (event) {
+  console.info('[push received]', event)
+  event.waitUntil(self.registration.showNotification('TITLE, push'))
+})
 
 
 self.addEventListener('notificationclick', function (event) {
