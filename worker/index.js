@@ -23,7 +23,7 @@ const messaging = firebase.messaging(firebaseApp)
  * https://github.com/firebase/quickstart-js/issues/126#issuecomment-907003970
  */
 
- messaging.onBackgroundMessage((payload) => {
+messaging.onBackgroundMessage((payload) => {
   console.info('[onBackgroundMessage received]', payload)
   const { title, body } = payload?.notification || {}
   const notificationTitle = `${title || 'Notification'}`
@@ -32,13 +32,13 @@ const messaging = firebase.messaging(firebaseApp)
     icon: '/icons/icon-32x32.png',
     tag: 'onBackgroundMessage',
   }
-  self.registration.showNotification(notificationTitle, notificationOptions)
+  return self.registration.showNotification(notificationTitle, notificationOptions)
   // Schedule closing all notifications that are not our own.
   // This is necessary because if we don't close the other notifications the
   // default one will appear and we will have duplicate notifications.
-  return new Promise(function (resolve, reject) {
-    resolve()
-  })
+  // return new Promise(function (resolve, reject) {
+  //   resolve()
+  // })
 })
 
 self.addEventListener('push', function (event) {
