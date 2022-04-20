@@ -42,10 +42,10 @@ console.info(messaging)
 //   // })
 // })
 
-// self.addEventListener('push', function (event) {
-//   console.info('[push received]', event)
-//   event.waitUntil(self.registration.showNotification('TITLE, push'))
-// })
+self.addEventListener('push', function (event) {
+  console.info('[push received]', event)
+  // event.waitUntil(self.registration.showNotification('TITLE, push'))
+})
 
 
 self.addEventListener('notificationclick', function (event) {
