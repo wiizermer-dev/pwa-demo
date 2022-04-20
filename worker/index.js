@@ -1,12 +1,12 @@
-import { initializeApp } from 'firebase/app'
-import { getMessaging, onBackgroundMessage } from 'firebase/messaging/sw'
+importScripts('https://www.gstatic.com/firebasejs/9.2.0/firebase-app-compat.js')
+importScripts('https://www.gstatic.com/firebasejs/9.2.0/firebase-messaging-compat.js')
 
 /**
  * referrence doc:
  * https://github.com/vercel/next.js/blob/main/examples/with-firebase-cloud-messaging/public/firebase-messaging-sw.js
  */
 
-const firebaseApp = initializeApp({
+const firebaseApp = firebase.initializeApp({
   apiKey: "AIzaSyBgQe3eswlSvWDe5-TlCODgkK5Un-TDAcE",
   authDomain: "nsfw-6df75.firebaseapp.com",
   projectId: "nsfw-6df75",
@@ -16,14 +16,14 @@ const firebaseApp = initializeApp({
   measurementId: "G-3HW9VFLPRX"
 })
 
-const messaging = getMessaging(firebaseApp)
+const messaging = firebase.messaging(firebaseApp)
 
 /** 
  * 在 onBackgroundMessage 做訊息客製化，會顯示兩封通知於通知列(1客製、1預設(無法移除))
  * https://github.com/firebase/quickstart-js/issues/126#issuecomment-907003970
  */
 
-onBackgroundMessage(messaging, (payload) => {
+ messaging.onBackgroundMessage((payload) => {
   console.info('[onBackgroundMessage received]', payload)
   const { title, body } = payload?.notification || {}
   const notificationTitle = `${title || 'Notification'}`
