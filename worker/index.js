@@ -19,7 +19,8 @@ const firebaseApp = initializeApp({
 const messaging = getMessaging(firebaseApp)
 
 self.addEventListener('install', event => {
-  console.info(event)
+  event.waitUntil(self.skipWaiting());
+  console.log("install, activate");
 })
 
 /** 
@@ -43,30 +44,24 @@ onBackgroundMessage(messaging, (payload) => {
   // // Schedule closing all notifications that are not our own.
   // // This is necessary because if we don't close the other notifications the
   // // default one will appear and we will have duplicate notifications.
-  // return new Promise(function (resolve, reject) {
-  //   resolve();
-  //   // setTimeout(function () {
-  //   //   self.registration.getNotifications().then((notifications) => {
-  //   //     notifications.forEach((notification) => {
-  //   //       if (notification.tag !== 'onBackgroundMessage') {
-  //   //         notification.close();
-  //   //       }
-  //   //     });
-  //   //   });
-  //   // }, 10);
-  // });
+  return new Promise(function (resolve, reject) {
+    resolve();
+    // setTimeout(function () {
+    //   self.registration.getNotifications().then((notifications) => {
+    //     notifications.forEach((notification) => {
+    //       if (notification.tag !== 'onBackgroundMessage') {
+    //         notification.close();
+    //       }
+    //     });
+    //   });
+    // }, 10);
+  });
 })
 
 self.addEventListener('push', function (event) {
   console.info('[push received]', event)
-  // const promise = new Promise(function (resolve, reject) {
-  //   self.registration.getNotifications().then((notifications) => {
-  //     console.info(notifications)
-  //     resolve()
-  //   })
-  //   setTimeout(() => console.info('promisechain') , 1000)
-  // })
-  event.waitUntil(self.registration.showNotification('PUSH'))
+  const promise = self.registration.showNotification('PUSH')
+  event.waitUntil(promise)
 })
 
 
