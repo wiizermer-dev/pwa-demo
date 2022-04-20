@@ -16,48 +16,62 @@ const firebaseApp = initializeApp({
   measurementId: "G-3HW9VFLPRX"
 })
 
-getMessaging(firebaseApp)
+const messaging = getMessaging(firebaseApp)
+
+self.addEventListener('install', event => {
+  console.info(event)
+})
 
 /** 
  * 在 onBackgroundMessage 做訊息客製化，會顯示兩封通知於通知列(1客製、1預設(無法移除))
  * https://github.com/firebase/quickstart-js/issues/126#issuecomment-907003970
  */
 
-// onBackgroundMessage(messaging, (payload) => {
-//   // self.registration.hideNotification()
-//   console.info('[onBackgroundMessage received]', payload)
-//   const { title, body } = payload?.notification || {}
-//   const notificationTitle = `${title || 'Notification'}`
-//   const notificationOptions = {
-//     body: `${body + '嗨嗨今天好嗎？'}`,
-//     icon: '/icons/icon-32x32.png',
-//     tag: 'onBackgroundMessage',
-//   }
-//   setTimeout(function () {
-//     self.registration.showNotification(notificationTitle, notificationOptions)
-//   }, 10);
-//   // Schedule closing all notifications that are not our own.
-//   // This is necessary because if we don't close the other notifications the
-//   // default one will appear and we will have duplicate notifications.
-//   return new Promise(function (resolve, reject) {
-//     resolve();
-//     setTimeout(function () {
-//       self.registration.getNotifications().then((notifications) => {
-//         notifications.forEach((notification) => {
-//           if (notification.tag !== 'onBackgroundMessage') {
-//             notification.close();
-//           }
-//         });
-//       });
-//     }, 10);
-//   });
-// })
-
-self.addEventListener('push', function (event) {
-  event.waitUntil(self.registration.showNotification())
+onBackgroundMessage(messaging, (payload) => {
+  // self.registration.hideNotification()
+  console.info('[onBackgroundMessage received]', payload)
+  // const { title, body } = payload?.notification || {}
+  // const notificationTitle = `${title || 'Notification'}`
+  // const notificationOptions = {
+  //   body: `${body + '嗨嗨今天好嗎？'}`,
+  //   icon: '/icons/icon-32x32.png',
+  //   tag: 'onBackgroundMessage',
+  // }
+  // // self.registration.showNotification(notificationTitle, notificationOptions)
+  // // setTimeout(function () {
+  // // }, 10);
+  // // Schedule closing all notifications that are not our own.
+  // // This is necessary because if we don't close the other notifications the
+  // // default one will appear and we will have duplicate notifications.
+  // return new Promise(function (resolve, reject) {
+  //   resolve();
+  //   // setTimeout(function () {
+  //   //   self.registration.getNotifications().then((notifications) => {
+  //   //     notifications.forEach((notification) => {
+  //   //       if (notification.tag !== 'onBackgroundMessage') {
+  //   //         notification.close();
+  //   //       }
+  //   //     });
+  //   //   });
+  //   // }, 10);
+  // });
 })
 
+self.addEventListener('push', function (event) {
+  console.info('[push received]', event)
+  // const promise = new Promise(function (resolve, reject) {
+  //   self.registration.getNotifications().then((notifications) => {
+  //     console.info(notifications)
+  //     resolve()
+  //   })
+  //   setTimeout(() => console.info('promisechain') , 1000)
+  // })
+  event.waitUntil(self.registration.showNotification('PUSH'))
+})
+
+
 self.addEventListener('notificationclick', function (event) {
+  console.info('[notificationclick received]', event)
   event.notification.close()
   event.waitUntil(
     self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(function (clientList) {

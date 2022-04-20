@@ -34,10 +34,10 @@ const firebaseCloudMessaging = {
   tokenInlocalforage: async () => localforage.getItem('fcm_token'),
   // initializing firebase app
   init: async () => {
+    const app = initializeApp(clientCredentials)
+    const messaging = getMessaging(app)
     try {
       const registration = await swReady() 
-      const app = initializeApp(clientCredentials)
-      const messaging = getMessaging(app)
       await Notification.requestPermission()
       const tokenInLocalForage = false // await firebaseCloudMessaging.tokenInlocalforage()
       const token =
@@ -46,6 +46,9 @@ const firebaseCloudMessaging = {
           serviceWorkerRegistration: registration,
           vapidKey: 'BO3uWIrFO0H5Z9GMxiRi3snDiQM4A7vQ6pWu5zocaTIiJdG02a0vgZGUpW3t66_y6p3tLq7cRGdeFmThWvH4CKE',
         }))
+      console.log({
+        token
+      })
       if (token) localforage.setItem('fcm_token', token)
       return { token, messaging }
     } catch (error) {

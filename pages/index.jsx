@@ -1,44 +1,14 @@
-import { useEffect, useState } from 'react'
 
 import styles from '../styles/Home.module.css'
-import { onMessage } from 'firebase/messaging'
-import { firebaseCloudMessaging } from '../utils/webPush'
 
 export default function Home() {
-  const [fcmToken, setFcmToken] = useState('')
-
-  useEffect(() => {
-    async function fcmForegroundHandle() {
-      try {
-        const { token, messaging } = await firebaseCloudMessaging.init()
-        console.log({ token, messaging })
-        if (token) {
-          setFcmToken(token)
-          onMessage(messaging, message => {
-            console.info('foreground ', message)
-            const { title, body } = message.notification
-            window.alert(title, body)
-          })
-        }
-      } catch (error) {
-        console.info(error)
-      }
-    }
-    fcmForegroundHandle()
-  }, [])
-
   return (
     <div className={styles.container}>
       <main className={styles.main}>
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
-        <p className={styles.description}>
-          fcmToken: {fcmToken}
-        </p>
-        {fcmToken && <p className={styles.description}>
-          Current view: {window?.matchMedia('(display-mode: standalone)').matches ? 'PWA' : 'Browser'}
-        </p>}
+       
         <p className={styles.description}>
           Get started by editing{' '}
           <code className={styles.code}>pages/index.js</code>
