@@ -24,8 +24,7 @@ async function swReady() {
     }
     return null
   } catch (e) {
-    logger.error(e)
-    return null
+    console.warn(e)
   }
 }
 
@@ -39,18 +38,13 @@ const firebaseCloudMessaging = {
     try {
       const registration = await swReady() 
       await Notification.requestPermission()
-      const tokenInLocalForage = false // await firebaseCloudMessaging.tokenInlocalforage()
+      const tokenInLocalForage = await firebaseCloudMessaging.tokenInlocalforage()
       const token =
         tokenInLocalForage ||
         (await getToken(messaging, {
           serviceWorkerRegistration: registration,
           vapidKey: 'BO3uWIrFO0H5Z9GMxiRi3snDiQM4A7vQ6pWu5zocaTIiJdG02a0vgZGUpW3t66_y6p3tLq7cRGdeFmThWvH4CKE',
         }))
-      console.log({
-        token,
-        registration,
-        messaging,
-      })
       if (token) localforage.setItem('fcm_token', token)
       return { token, messaging }
     } catch (error) {
