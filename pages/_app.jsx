@@ -45,7 +45,7 @@ export default function MyApp({ Component, pageProps }) {
         <meta name="keywords" content="Keywords" />
         <title>Next.js PWA Example</title>
 
-        <link rel="manifest" href="/manifest.json" />
+        <link rel="manifest" href="/manifest.json?v=2" />
         <link
           href="/icon.png"
           rel="icon"
