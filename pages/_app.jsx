@@ -45,15 +45,15 @@ export default function MyApp({ Component, pageProps }) {
         <meta name="keywords" content="Keywords" />
         <title>Next.js PWA Example</title>
 
-        <link rel="manifest" href="/manifest.json?v=2" />
+        <link rel="manifest" href="/manifest.json?v=49372729" />
         <link
-          href="/icon.png"
+          href="/icons/favicon-16x16.png"
           rel="icon"
           type="image/png"
           sizes="16x16"
         />
         <link
-           href="/icon.png"
+          href="/icons/favicon-32x32.png"
           rel="icon"
           type="image/png"
           sizes="32x32"
